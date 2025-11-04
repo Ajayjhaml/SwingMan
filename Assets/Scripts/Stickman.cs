@@ -436,7 +436,7 @@ public class Stickman : MonoBehaviour
     private HingeJoint2D hJoint;
     private Rigidbody2D rb;
     private LineRenderer lineRenderer;
-    private TrailRenderer trailRenderer;
+    private TrailRenderer trailRenderer; // ✅ Added for Android & trail fix
     private SpriteRenderer spriteRenderer;
     private AudioSource audioSource;
 
@@ -506,23 +506,45 @@ public class Stickman : MonoBehaviour
         hJoint = GetComponent<HingeJoint2D>();
         rb = GetComponent<Rigidbody2D>();
         lineRenderer = GetComponent<LineRenderer>();
-        trailRenderer = GetComponent<TrailRenderer>();
+        trailRenderer = GetComponent<TrailRenderer>(); // ✅ Get TrailRenderer
         spriteRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
 
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
 
-        // 🩵 Ensure trail/rope renders behind player
-        if (lineRenderer != null)
+        // ✅ Fix: Ensure trail or line always renders behind player
+        if (spriteRenderer != null)
         {
-            lineRenderer.sortingLayerName = spriteRenderer.sortingLayerName;
-            lineRenderer.sortingOrder = spriteRenderer.sortingOrder - 1;
-        }
-        if (trailRenderer != null)
-        {
-            trailRenderer.sortingLayerName = spriteRenderer.sortingLayerName;
-            trailRenderer.sortingOrder = spriteRenderer.sortingOrder - 1;
+            if (lineRenderer != null)
+            {
+                lineRenderer.sortingLayerName = spriteRenderer.sortingLayerName;
+                lineRenderer.sortingOrder = spriteRenderer.sortingOrder - 1;
+
+#if UNITY_ANDROID
+                if (lineRenderer.material == null)
+                {
+                    Material mat = new Material(Shader.Find("Sprites/Default"));
+                    mat.renderQueue = 3000;
+                    lineRenderer.material = mat;
+                }
+#endif
+            }
+
+            if (trailRenderer != null)
+            {
+                trailRenderer.sortingLayerName = spriteRenderer.sortingLayerName;
+                trailRenderer.sortingOrder = spriteRenderer.sortingOrder - 1;
+
+#if UNITY_ANDROID
+                if (trailRenderer.material == null)
+                {
+                    Material mat = new Material(Shader.Find("Sprites/Default"));
+                    mat.renderQueue = 3000;
+                    trailRenderer.material = mat;
+                }
+#endif
+            }
         }
 
         lastBestPosJoint = 0;
@@ -532,13 +554,14 @@ public class Stickman : MonoBehaviour
         if (anchor != null && anchor.transform.childCount > 0)
             anchor.transform.GetChild(lastBestPosSelected).gameObject.GetComponent<JointAnchor>().Selected();
 
-        // Reset coins only when starting from Home screen
+        // 🟢 Reset coins only when starting from Home screen
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             PlayerPrefs.SetInt("TotalCoins", 0);
             PlayerPrefs.Save();
         }
 
+        // 🟢 Load total coins for gameplay
         coins = PlayerPrefs.GetInt("TotalCoins", 0);
         UpdateUI();
         won = false;
@@ -610,11 +633,8 @@ public class Stickman : MonoBehaviour
             if (hJoint != null && hJoint.connectedBody != null)
             {
                 actualJointPos = hJoint.connectedBody.transform.position;
-                if (lineRenderer != null)
-                {
-                    lineRenderer.SetPosition(0, transform.position);
-                    lineRenderer.SetPosition(1, actualJointPos);
-                }
+                lineRenderer.SetPosition(0, transform.position);
+                lineRenderer.SetPosition(1, actualJointPos);
             }
             ChangeSprite();
         }
@@ -625,8 +645,8 @@ public class Stickman : MonoBehaviour
         if ((Input.GetMouseButtonDown(0) || Input.GetKeyDown(KeyCode.Space) ||
             ((Input.touchCount > 0) && (touches == 0))) && !sticked)
         {
-            if (lineRenderer != null) lineRenderer.enabled = true;
-            if (hJoint != null) hJoint.enabled = true;
+            lineRenderer.enabled = true;
+            hJoint.enabled = true;
             rb.gravityScale = gravityRope;
 
             Rigidbody2D anchorBody = anchor.transform.GetChild(bestPos).GetChild(0).GetComponent<Rigidbody2D>();
@@ -634,11 +654,8 @@ public class Stickman : MonoBehaviour
             {
                 hJoint.connectedBody = anchorBody;
                 actualJointPos = anchorBody.transform.position;
-                if (lineRenderer != null)
-                {
-                    lineRenderer.SetPosition(0, transform.position);
-                    lineRenderer.SetPosition(1, actualJointPos);
-                }
+                lineRenderer.SetPosition(0, transform.position);
+                lineRenderer.SetPosition(1, actualJointPos);
             }
 
             anchor.transform.GetChild(bestPos).GetComponent<JointAnchor>().SetSticked();
@@ -652,8 +669,8 @@ public class Stickman : MonoBehaviour
         if ((Input.GetMouseButtonUp(0) || Input.GetKeyUp(KeyCode.Space) ||
             ((Input.touchCount == 0) && (touches > 0))) && sticked)
         {
-            if (lineRenderer != null) lineRenderer.enabled = false;
-            if (hJoint != null) hJoint.enabled = false;
+            lineRenderer.enabled = false;
+            hJoint.enabled = false;
             rb.linearVelocity = new Vector2(rb.linearVelocity.x * factorX, rb.linearVelocity.y + factorY);
             rb.gravityScale = gravityAir;
 
@@ -736,6 +753,7 @@ public class Stickman : MonoBehaviour
         {
             coins++;
             UpdateUI();
+
             if (soundOn && coinSound != null)
                 audioSource.PlayOneShot(coinSound);
 
@@ -751,6 +769,7 @@ public class Stickman : MonoBehaviour
         {
             coins += 10;
             UpdateUI();
+
             if (soundOn && coinSound != null)
                 audioSource.PlayOneShot(coinSound);
 
