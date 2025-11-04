@@ -1,0 +1,32 @@
+{
+	"folders": [
+		{
+			"path": "../../../StickMan_Hook"
+		},
+		{
+			"path": "../../Packages"
+		},
+		{
+			"path": "../../ProjectSettings"
+		},
+		{
+			"path": "../../Temp"
+		},
+		{
+			"path": "../../UserSettings"
+		},
+		{
+			"path": "../../.vscode"
+		},
+		{
+			"path": ".."
+		},
+		{
+			"path": "../../Library"
+		},
+		{
+			"path": "../../Logs"
+		}
+	],
+	"settings": {}
+}
