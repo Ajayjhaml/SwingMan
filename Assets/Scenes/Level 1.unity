@@ -1738,6 +1738,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Explosion_2_Skull_Green
       objectReference: {fileID: 0}
+    - target: {fileID: 8063331690356840624, guid: b41270eb23a4ab54e969511b33362501,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8063331690356840639, guid: b41270eb23a4ab54e969511b33362501,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -6612,7 +6617,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!199 &1466637122
 ParticleSystemRenderer:
   serializedVersion: 6
