@@ -87,14 +87,15 @@ public class Stickman : MonoBehaviour
         hJoint = GetComponent<HingeJoint2D>();
         rb = GetComponent<Rigidbody2D>();
         lineRenderer = GetComponent<LineRenderer>();
-        trailRenderer = GetComponent<TrailRenderer>(); // ✅ Get TrailRenderer
+        trailRenderer = GetComponent<TrailRenderer>(); //  Get TrailRenderer
         spriteRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
+        Application.targetFrameRate = 120;
 
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
 
-        // ✅ Fix: Ensure trail or line always renders behind player
+        // Fix: Ensure trail or line always renders behind player
         if (spriteRenderer != null)
         {
             if (lineRenderer != null)
@@ -102,14 +103,14 @@ public class Stickman : MonoBehaviour
                 lineRenderer.sortingLayerName = spriteRenderer.sortingLayerName;
                 lineRenderer.sortingOrder = spriteRenderer.sortingOrder - 1;
 
-#if UNITY_ANDROID
+                 #if UNITY_ANDROID
                 if (lineRenderer.material == null)
                 {
                     Material mat = new Material(Shader.Find("Sprites/Default"));
                     mat.renderQueue = 3000;
                     lineRenderer.material = mat;
                 }
-#endif
+                #endif
             }
 
             if (trailRenderer != null)
@@ -117,7 +118,7 @@ public class Stickman : MonoBehaviour
                 trailRenderer.sortingLayerName = spriteRenderer.sortingLayerName;
                 trailRenderer.sortingOrder = spriteRenderer.sortingOrder - 1;
 
-#if UNITY_ANDROID
+                 #if UNITY_ANDROID
                 if (trailRenderer.material == null)
                 {
                     Material mat = new Material(Shader.Find("Sprites/Default"));
@@ -135,7 +136,7 @@ public class Stickman : MonoBehaviour
         if (anchor != null && anchor.transform.childCount > 0)
             anchor.transform.GetChild(lastBestPosSelected).gameObject.GetComponent<JointAnchor>().Selected();
 
-        // 🟢 Reset coins only when starting from Home screen
+        // Reset coins only when starting from Home screen
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             PlayerPrefs.SetInt("TotalCoins", 0);

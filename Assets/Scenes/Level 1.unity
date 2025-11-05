@@ -1917,7 +1917,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fab16edf9430d594dafef627268ef40b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ballSprite: {fileID: 2634816806227739618, guid: 6a8e4f6036148464baa63eaefb97e2af,
+  ballSprite: {fileID: 5677974409971128395, guid: 6a8e4f6036148464baa63eaefb97e2af,
     type: 3}
   stopSprite: {fileID: 2634816806227739618, guid: 6a8e4f6036148464baa63eaefb97e2af,
     type: 3}
@@ -1998,7 +1998,7 @@ LineRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 500471086}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2034,7 +2034,7 @@ LineRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -10
   m_Positions:
   - {x: 4.97, y: 0, z: 0}
   - {x: 0, y: 0, z: 1}
@@ -2158,7 +2158,7 @@ TrailRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 500471086}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -2194,7 +2194,7 @@ TrailRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -10
   m_Time: 0.3
   m_PreviewTimeScale: 1
   m_Parameters:

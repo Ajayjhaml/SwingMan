@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     {
         stickman = player.GetComponent<Stickman>();
         initPos = player.transform.position;
+        Application.targetFrameRate = 120;
     }
 
     private void Update()
