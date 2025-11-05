@@ -17,7 +17,6 @@ public class Stickman : MonoBehaviour
     private HingeJoint2D hJoint;
     private Rigidbody2D rb;
     private LineRenderer lineRenderer;
-    private TrailRenderer trailRenderer; // ✅ Added for Android & trail fix
     private SpriteRenderer spriteRenderer;
     private AudioSource audioSource;
 
@@ -48,10 +47,12 @@ public class Stickman : MonoBehaviour
     public GameObject gameOverPanel;
     public Text gameOverText;
     public Button restartButton;
+    public Button exitButtonGameOver; // 🟢 Added Exit button for Game Over panel
 
     [Header("Play Panel UI")]
     public GameObject playPanel;
     public Button playButton;
+    public Button exitButtonStart; // 🟢 Added Exit button for Start panel
 
     [Header("Sound UI")]
     public Button soundButton;
@@ -84,49 +85,33 @@ public class Stickman : MonoBehaviour
 
     private void Start()
     {
+        // 🟢 Set the game frame rate to 120 FPS
+        QualitySettings.vSyncCount = 0;
+        Application.targetFrameRate = 120;
+
         hJoint = GetComponent<HingeJoint2D>();
         rb = GetComponent<Rigidbody2D>();
         lineRenderer = GetComponent<LineRenderer>();
-        trailRenderer = GetComponent<TrailRenderer>(); //  Get TrailRenderer
         spriteRenderer = GetComponent<SpriteRenderer>();
         audioSource = GetComponent<AudioSource>();
-        Application.targetFrameRate = 120;
 
         if (audioSource == null)
             audioSource = gameObject.AddComponent<AudioSource>();
 
-        // Fix: Ensure trail or line always renders behind player
-        if (spriteRenderer != null)
+        // ✅ Ensure line always renders behind player
+        if (spriteRenderer != null && lineRenderer != null)
         {
-            if (lineRenderer != null)
-            {
-                lineRenderer.sortingLayerName = spriteRenderer.sortingLayerName;
-                lineRenderer.sortingOrder = spriteRenderer.sortingOrder - 1;
+            lineRenderer.sortingLayerName = spriteRenderer.sortingLayerName;
+            lineRenderer.sortingOrder = spriteRenderer.sortingOrder - 1;
 
-                 #if UNITY_ANDROID
-                if (lineRenderer.material == null)
-                {
-                    Material mat = new Material(Shader.Find("Sprites/Default"));
-                    mat.renderQueue = 3000;
-                    lineRenderer.material = mat;
-                }
-                #endif
+#if UNITY_ANDROID
+            if (lineRenderer.material == null)
+            {
+                Material mat = new Material(Shader.Find("Sprites/Default"));
+                mat.renderQueue = 3000;
+                lineRenderer.material = mat;
             }
-
-            if (trailRenderer != null)
-            {
-                trailRenderer.sortingLayerName = spriteRenderer.sortingLayerName;
-                trailRenderer.sortingOrder = spriteRenderer.sortingOrder - 1;
-
-                 #if UNITY_ANDROID
-                if (trailRenderer.material == null)
-                {
-                    Material mat = new Material(Shader.Find("Sprites/Default"));
-                    mat.renderQueue = 3000;
-                    trailRenderer.material = mat;
-                }
 #endif
-            }
         }
 
         lastBestPosJoint = 0;
@@ -136,7 +121,7 @@ public class Stickman : MonoBehaviour
         if (anchor != null && anchor.transform.childCount > 0)
             anchor.transform.GetChild(lastBestPosSelected).gameObject.GetComponent<JointAnchor>().Selected();
 
-        // Reset coins only when starting from Home screen
+        // 🟢 Reset coins only when starting from Home screen
         if (SceneManager.GetActiveScene().buildIndex == 0)
         {
             PlayerPrefs.SetInt("TotalCoins", 0);
@@ -156,6 +141,10 @@ public class Stickman : MonoBehaviour
         if (nextButton != null) nextButton.onClick.AddListener(NextLevel);
         if (homeButton != null) homeButton.onClick.AddListener(ReturnHome);
         if (resumeButton != null) resumeButton.onClick.AddListener(ResumeGame);
+
+        // 🟢 Exit buttons
+        if (exitButtonStart != null) exitButtonStart.onClick.AddListener(ExitGame);
+        if (exitButtonGameOver != null) exitButtonGameOver.onClick.AddListener(ExitGame);
 
         UpdateSoundUI();
 
@@ -451,7 +440,20 @@ public class Stickman : MonoBehaviour
         if (winPanel != null) winPanel.SetActive(false);
         if (playPanel != null) playPanel.SetActive(false);
     }
+
+    // 🟢 Exit Game Function
+    private void ExitGame()
+    {
+        #if UNITY_EDITOR
+        UnityEditor.EditorApplication.isPlaying = false;
+        #else
+        Application.Quit();
+        #endif
+    }
 }
+
+
+
 
 
 
