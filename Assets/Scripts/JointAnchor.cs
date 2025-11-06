@@ -6,7 +6,7 @@ public class JointAnchor : MonoBehaviour
 {
     [SerializeField] private Sprite spriteUnsticked;
     [SerializeField] private Sprite spriteSticked;
-    [SerializeField] private GameObject dashLine;  // ✅ Assign this manually in Inspector
+    [SerializeField] private GameObject dashLine;  //  Assign this manually in Inspector
 
     public float animTime;
     public AnimationCurve animationCurve;

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: e7f6cad8c58bb5b4299b1d3b34d0eea3
+guid: 02546e8561ed3f441a134637f9ee6dd4
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -123,23 +123,67 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: Trophy image_0
+      name: skull
       rect:
         serializedVersion: 2
-        x: 0
-        y: 3
-        width: 370
-        height: 305
+        x: 14
+        y: 117
+        width: 236
+        height: 262
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: ee69ee233dae3f64c8898799b543a4b5
-      internalID: -2123734414
+      spriteID: 82087daf55f835d46b82d850e08bd57b
+      internalID: -661518643
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: skullbgremove_1
+      rect:
+        serializedVersion: 2
+        x: 41
+        y: 21
+        width: 181
+        height: 126
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6401ebe78fac6fa40bf01276f51f9639
+      internalID: -1901328727
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: fullskull
+      rect:
+        serializedVersion: 2
+        x: 13
+        y: 23
+        width: 238
+        height: 358
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 3, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c92b88dc2c73e714fbe12b1910d04f39
+      internalID: 902729556
       vertices: []
       indices: 
       edges: []
@@ -148,7 +192,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 5c4fcee6239aa7548a40a7be4185bb3c
+    spriteID: 5bf9afc06e0bd244e8dfc4387a9e0856
     internalID: 0
     vertices: []
     indices: 
@@ -158,7 +202,9 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      Trophy image_0: -2123734414
+      fullskull: 902729556
+      skull: -661518643
+      skullbgremove_1: -1901328727
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
