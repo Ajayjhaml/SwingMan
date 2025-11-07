@@ -111,14 +111,14 @@ public class Stickman : MonoBehaviour
             lineRenderer.sortingLayerName = spriteRenderer.sortingLayerName;
             lineRenderer.sortingOrder = spriteRenderer.sortingOrder - 1;
 
-#if UNITY_ANDROID
+            #if UNITY_ANDROID
             if (lineRenderer.material == null)
             {
                 Material mat = new Material(Shader.Find("Sprites/Default"));
                 mat.renderQueue = 3000;
                 lineRenderer.material = mat;
             }
-#endif
+            #endif
         }
 
         lastBestPosJoint = 0;
@@ -239,7 +239,7 @@ private void UpdateDistanceBar()
         ? 1f - Mathf.Clamp01(currentDistance / startDistance)
         : 1f;
 
-    distanceBar.value = normalizedValue;  // ✅ now moves left to right as player gets closer
+    distanceBar.value = normalizedValue;  // now moves left to right as player gets closer
 
     if (distanceText != null)
         distanceText.text = $"{currentDistance:F1}m";
@@ -429,7 +429,7 @@ private void UpdateDistanceBar()
         }
         else if (collision.CompareTag("Finish"))
         {
-            StartCoroutine(ShowWinPanelAfterDelay(4f));  // ⬅️ Changed line (Win panel will open after 4 seconds)
+            StartCoroutine(ShowWinPanelAfterDelay(4f));  // ⬅ Changed line (Win panel will open after 4 seconds)
         }
     }
 
